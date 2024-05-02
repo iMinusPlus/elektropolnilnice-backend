@@ -1,0 +1,13 @@
+extends layout
+
+block content
+    h1 API help
+    p Welcome to #{title}
+
+        //Add a list of API endpoints here
+        ul
+            li GET /api/users - get all users
+            li GET /api/contacts/:id
+            li POST /api/contacts
+            li PUT /api/contacts/:id
+            li DELETE /api/contacts/:id
