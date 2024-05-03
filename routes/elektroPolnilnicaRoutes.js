@@ -11,6 +11,7 @@ router.get('/', elektroPolnilnicaController.list);
  * GET
  */
 router.get('/:id', elektroPolnilnicaController.show);
+router.get('/test', elektroPolnilnicaController.testOpenCharge);
 
 /*
  * POST
