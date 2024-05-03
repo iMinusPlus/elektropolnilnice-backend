@@ -2,5 +2,6 @@
   "database": {
     "comment": "This is the connection string for the MongoDB database. Replace <user> and <password> with your own credentials.",
     "connection": "mongodb+srv://<user>:<password>@ep-cluster0.d1vzzje.mongodb.net/?retryWrites=true&w=majority&appName=EP-Cluster0"
-  }
+  },
+  "open_charge_api_key": "Add Open Charge API key"
 }
