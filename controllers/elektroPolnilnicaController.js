@@ -147,14 +147,15 @@ module.exports = {
     },
 
     testOpenCharge: async function (req, res) {
-        //todo popraviti da deluje
         const url = new URL("https://api.openchargemap.io/v3/poi/?output=json&countrycode=SI&maxresults=1&key=50062ab3-b707-4dea-9da7-c8611695a9ff"); //todo potem spremeniti in sestaviti po pravilih
         try {
             const response = await fetch(url);
             if (!response.ok) {
                 throw new Error("Something went wrong" + response.statusText);
             }
-            return res.json(response.json());
+            const data = await response.json();
+            // console.log(data)
+            return res.json(data);
         } catch (error) {
             console.error(error)
         }
