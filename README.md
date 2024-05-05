@@ -4,6 +4,7 @@
 - pozene z "npm start"/"npm run dev"
 - lokalno nahaja na localhost:3000
 - osnovno testno vracanje z "http://localhost:3000/polnilnice/test"
+- na serverju test: http://52.174.127.46:3000/polnilnice/test
 - lokalno zaganjanje dockerja v terminalu: docker build -t backend . && docker run -p 3000:3000 backend
 
 ### TODO:
