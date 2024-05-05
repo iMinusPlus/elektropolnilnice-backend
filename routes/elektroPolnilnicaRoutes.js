@@ -5,13 +5,12 @@ var elektroPolnilnicaController = require('../controllers/elektroPolnilnicaContr
 /*
  * GET
  */
+router.get('/test', elektroPolnilnicaController.testOpenCharge);
 router.get('/', elektroPolnilnicaController.list);
-
 /*
  * GET
  */
 router.get('/:id', elektroPolnilnicaController.show);
-router.get('/test', elektroPolnilnicaController.testOpenCharge);
 
 /*
  * POST
