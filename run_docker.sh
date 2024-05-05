@@ -1,28 +1,30 @@
 #!/bin/bash
 
 # Name of the Docker image
-IMAGE_NAME="elp-backend"
+IMAGE_NAME="elp-backend1"
 # Name of the Docker container
 CONTAINER_NAME="back"
 
-# Check if a container with the specified image name is running
-if docker ps -q -f "ancestor=$IMAGE_NAME" >/dev/null; then
-    # If running, stop and remove the container
-    echo "Container with image $IMAGE_NAME is running. Stopping and removing it."
+if [ "$#" -ne 1 ]; then
+    echo "Usage: $0 [run|update]"
+    exit 1
+fi
+
+if [ "$1" = "run" ]; then
+    echo "Running the application... (Use update if there is new code)"
+    # Only run if app was stopped
+    docker run -p 0.0.0.0:3000:3000 --name $CONTAINER_NAME $IMAGE_NAME
+elif [ "$1" = "update" ]; then
+    echo "Restarting the application..."
+    # Stop and remove all old images and containers
     docker stop $CONTAINER_NAME
     docker rm $CONTAINER_NAME
     docker rmi $IMAGE_NAME
+    # Build a new ones and start them up
+    docker build -t $IMAGE_NAME .
+    docker run -p 0.0.0.0:3000:3000 --name $CONTAINER_NAME $IMAGE_NAME
 else
-    # If not running, check if the image exists
-    if docker image inspect $IMAGE_NAME >/dev/null 2>&1; then
-        # If the image exists, start a container with it
-        echo "Image $IMAGE_NAME exists. Starting container."
-        docker run -d - $CONTAINER_NAME $IMAGE_NAME
-    else
-        # If the image doesn't exist, build it from Dockerfile and start a container
-        echo "Image $IMAGE_NAME does not exist. Building it and starting container."
-        docker build -t $IMAGE_NAME .
-        docker run -d --name $CONTAINER_NAME $IMAGE_NAME
-    fi
+    echo "Invalid argument: $1"
+    echo "Usage: $0 [run|update]"
+    exit 1
 fi
-
