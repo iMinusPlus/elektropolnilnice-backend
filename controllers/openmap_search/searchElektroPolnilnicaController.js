@@ -155,7 +155,10 @@ module.exports = {
             }
             const data = await response.json();
             // console.log(data)
-            return res.json(data);
+
+            //Todo pretvoriti v search model
+            result = ElektropolnilnicaModel.getFromJson(data[0]);
+            return res.json(result);
         } catch (error) {
             console.error(error)
         }
