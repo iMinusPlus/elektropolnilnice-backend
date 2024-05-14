@@ -8,13 +8,22 @@ var elektroPolnilnicaSchema = new Schema({
 	'dataProviderID' : Number,
 	'usageCost' : String,
 	'usageType' : Number,
-	'address' : Number,
-	'connections' : Number,
+	'address' : {
+		type: Schema.Types.ObjectId,
+		ref: 'address'
+	},
+	'connections' : [{ //todo tega prilagoditi da je array/list (mogoce bodo ti '[]' delovali)
+		type: Schema.Types.ObjectId,
+		ref: 'connection'
+	}],
 	'dateCreated' : Date,
 	'dateAddedToOurApp' : Date,
 	'submissionStatusTypeID' : Number,
 	'numberOfPoints' : Number,
-	'status' : Number,
+	'status' : {
+		type: Schema.Types.ObjectId,
+		ref: 'polnilnicaStatus'
+	},
 	'dateLastCOnfirmed' : Date,
 	'comments' : String
 });

@@ -3,7 +3,10 @@ var Schema   = mongoose.Schema;
 
 var connectionSchema = new Schema({
 	'id' : Number,
-	'connectionType' : Number,
+	'connectionType' : {
+		type: Schema.Types.ObjectId,
+		ref: 'connectionType'
+	},
 	'reference' : String,
 	'amps' : Number,
 	'voltage' : Number,
