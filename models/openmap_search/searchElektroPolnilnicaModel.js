@@ -17,10 +17,10 @@ var searchElektroPolnilnicaSchema = new Schema({
 		ref: 'searchAddress'
 	},
 	// 'connectionID' : Number,
-	'connection' : {
+	'connections' : [{
 		type: Schema.Types.ObjectId,
 		ref: 'searchConnection'
-	},
+	}],
 	'dateCreated' : Date,
 	'submissionStatusTypeID' : Number,
 	'numberOfPoints' : Number,
@@ -36,7 +36,7 @@ var searchElektroPolnilnicaSchema = new Schema({
 searchElektroPolnilnicaSchema.statics.getFromJson = function (data) {
 	let getStatusType = SearchStatusTypeModel.getFromJson(data.StatusType);
 	let getAddress = SearchAddressModel.getFromJson(data.AddressInfo)
-	let getConnection = SearchAddressModel.getFromJson(data.Connections[0])
+	let getConnections = data.Connections.map(conn => SearchConnectionModel.getFromJson(conn));
 
 	return new this({
 		id: data.id,
@@ -45,7 +45,7 @@ searchElektroPolnilnicaSchema.statics.getFromJson = function (data) {
 		dataProviderID: data.DataProvider.ID,
 		usageCost: data.UsageCost,
 		usageTypeID: data.UsageTypeID,
-		connection: getConnection, //tODO TO UREDITI KER JIH JE VEC LAHKO
+		connections: getConnections, //tODO TO UREDITI KER JIH JE VEC LAHKO
 		dateCreated: data.DateCreated ? new Date(data.DateCreated) : null,
 		submissionStatusTypeID: data.SubmissionStatusTypeID,
 		numberOfPoints: data.NumberOfPoints,

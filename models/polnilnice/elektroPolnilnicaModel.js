@@ -12,7 +12,7 @@ var elektroPolnilnicaSchema = new Schema({
 		type: Schema.Types.ObjectId,
 		ref: 'address'
 	},
-	'connections' : [{ //todo tega prilagoditi da je array/list (mogoce bodo ti '[]' delovali)
+	'connections' : [{
 		type: Schema.Types.ObjectId,
 		ref: 'connection'
 	}],
