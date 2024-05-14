@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var Schema   = mongoose.Schema;
 
-var addressSchema = new Schema({
+var searchAddressSchema = new Schema({
 	'id' : Number,
 	'title' : String,
 	'addressLine1' : String,
@@ -13,4 +13,4 @@ var addressSchema = new Schema({
 	'longitude' : String
 });
 
-module.exports = mongoose.model('address', addressSchema);
+module.exports = mongoose.model('searchAddress', searchAddressSchema);

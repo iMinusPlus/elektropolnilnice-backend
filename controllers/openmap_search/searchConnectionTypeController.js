@@ -1,7 +1,7 @@
-var ConnectiontypeModel = require('../models/connectionTypeModel.js');
+var ConnectiontypeModel = require('../../models/openmap_search/searchConnectionTypeModel.js');
 
 /**
- * connectionTypeController.js
+ * searchConnectionTypeController.js
  *
  * @description :: Server-side logic for managing connectionTypes.
  */
@@ -14,7 +14,7 @@ module.exports = {
         ConnectiontypeModel.find(function (err, connectionTypes) {
             if (err) {
                 return res.status(500).json({
-                    message: 'Error when getting connectionType.',
+                    message: 'Error when getting searchConnectionType.',
                     error: err
                 });
             }
@@ -29,21 +29,21 @@ module.exports = {
     show: function (req, res) {
         var id = req.params.id;
 
-        ConnectiontypeModel.findOne({_id: id}, function (err, connectionType) {
+        ConnectiontypeModel.findOne({_id: id}, function (err, searchConnectionType) {
             if (err) {
                 return res.status(500).json({
-                    message: 'Error when getting connectionType.',
+                    message: 'Error when getting searchConnectionType.',
                     error: err
                 });
             }
 
-            if (!connectionType) {
+            if (!searchConnectionType) {
                 return res.status(404).json({
-                    message: 'No such connectionType'
+                    message: 'No such searchConnectionType'
                 });
             }
 
-            return res.json(connectionType);
+            return res.json(searchConnectionType);
         });
     },
 
@@ -51,7 +51,7 @@ module.exports = {
      * connectionTypeController.create()
      */
     create: function (req, res) {
-        var connectionType = new ConnectiontypeModel({
+        var searchConnectionType = new ConnectiontypeModel({
 			id : req.body.id,
 			formalName : req.body.formalName,
 			discontinued : req.body.discontinued,
@@ -59,15 +59,15 @@ module.exports = {
 			title : req.body.title
         });
 
-        connectionType.save(function (err, connectionType) {
+        searchConnectionType.save(function (err, searchConnectionType) {
             if (err) {
                 return res.status(500).json({
-                    message: 'Error when creating connectionType',
+                    message: 'Error when creating searchConnectionType',
                     error: err
                 });
             }
 
-            return res.status(201).json(connectionType);
+            return res.status(201).json(searchConnectionType);
         });
     },
 
@@ -77,35 +77,35 @@ module.exports = {
     update: function (req, res) {
         var id = req.params.id;
 
-        ConnectiontypeModel.findOne({_id: id}, function (err, connectionType) {
+        ConnectiontypeModel.findOne({_id: id}, function (err, searchConnectionType) {
             if (err) {
                 return res.status(500).json({
-                    message: 'Error when getting connectionType',
+                    message: 'Error when getting searchConnectionType',
                     error: err
                 });
             }
 
-            if (!connectionType) {
+            if (!searchConnectionType) {
                 return res.status(404).json({
-                    message: 'No such connectionType'
+                    message: 'No such searchConnectionType'
                 });
             }
 
-            connectionType.id = req.body.id ? req.body.id : connectionType.id;
-			connectionType.formalName = req.body.formalName ? req.body.formalName : connectionType.formalName;
-			connectionType.discontinued = req.body.discontinued ? req.body.discontinued : connectionType.discontinued;
-			connectionType.obsolete = req.body.obsolete ? req.body.obsolete : connectionType.obsolete;
-			connectionType.title = req.body.title ? req.body.title : connectionType.title;
+            searchConnectionType.id = req.body.id ? req.body.id : searchConnectionType.id;
+			searchConnectionType.formalName = req.body.formalName ? req.body.formalName : searchConnectionType.formalName;
+			searchConnectionType.discontinued = req.body.discontinued ? req.body.discontinued : searchConnectionType.discontinued;
+			searchConnectionType.obsolete = req.body.obsolete ? req.body.obsolete : searchConnectionType.obsolete;
+			searchConnectionType.title = req.body.title ? req.body.title : searchConnectionType.title;
 			
-            connectionType.save(function (err, connectionType) {
+            searchConnectionType.save(function (err, searchConnectionType) {
                 if (err) {
                     return res.status(500).json({
-                        message: 'Error when updating connectionType.',
+                        message: 'Error when updating searchConnectionType.',
                         error: err
                     });
                 }
 
-                return res.json(connectionType);
+                return res.json(searchConnectionType);
             });
         });
     },
@@ -116,10 +116,10 @@ module.exports = {
     remove: function (req, res) {
         var id = req.params.id;
 
-        ConnectiontypeModel.findByIdAndRemove(id, function (err, connectionType) {
+        ConnectiontypeModel.findByIdAndRemove(id, function (err, searchConnectionType) {
             if (err) {
                 return res.status(500).json({
-                    message: 'Error when deleting the connectionType.',
+                    message: 'Error when deleting the searchConnectionType.',
                     error: err
                 });
             }

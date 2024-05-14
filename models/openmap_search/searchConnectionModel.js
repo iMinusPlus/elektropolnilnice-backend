@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var Schema   = mongoose.Schema;
 
-var connectionSchema = new Schema({
+var searcConnectionSchema = new Schema({
 	'id' : Number,
 	'connectionTypeID' : Number,
 	'reference' : String,
@@ -15,4 +15,4 @@ var connectionSchema = new Schema({
 	'comments' : String
 });
 
-module.exports = mongoose.model('connection', connectionSchema);
+module.exports = mongoose.model('searchConnection', searcConnectionSchema);

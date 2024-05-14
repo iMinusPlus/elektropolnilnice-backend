@@ -1,7 +1,7 @@
-var AddressModel = require('../models/addressModel.js');
+var AddressModel = require('../../models/openmap_search/searchAddressModel.js');
 
 /**
- * addressController.js
+ * searchAddressController.js
  *
  * @description :: Server-side logic for managing addresss.
  */
@@ -14,7 +14,7 @@ module.exports = {
         AddressModel.find(function (err, addresss) {
             if (err) {
                 return res.status(500).json({
-                    message: 'Error when getting address.',
+                    message: 'Error when getting searchAddress.',
                     error: err
                 });
             }
@@ -29,21 +29,21 @@ module.exports = {
     show: function (req, res) {
         var id = req.params.id;
 
-        AddressModel.findOne({_id: id}, function (err, address) {
+        AddressModel.findOne({_id: id}, function (err, searchAddress) {
             if (err) {
                 return res.status(500).json({
-                    message: 'Error when getting address.',
+                    message: 'Error when getting searchAddress.',
                     error: err
                 });
             }
 
-            if (!address) {
+            if (!searchAddress) {
                 return res.status(404).json({
-                    message: 'No such address'
+                    message: 'No such searchAddress'
                 });
             }
 
-            return res.json(address);
+            return res.json(searchAddress);
         });
     },
 
@@ -51,7 +51,7 @@ module.exports = {
      * addressController.create()
      */
     create: function (req, res) {
-        var address = new AddressModel({
+        var searchAddress = new AddressModel({
 			id : req.body.id,
 			title : req.body.title,
 			addressLine1 : req.body.addressLine1,
@@ -63,15 +63,15 @@ module.exports = {
 			longitude : req.body.longitude
         });
 
-        address.save(function (err, address) {
+        searchAddress.save(function (err, searchAddress) {
             if (err) {
                 return res.status(500).json({
-                    message: 'Error when creating address',
+                    message: 'Error when creating searchAddress',
                     error: err
                 });
             }
 
-            return res.status(201).json(address);
+            return res.status(201).json(searchAddress);
         });
     },
 
@@ -81,39 +81,39 @@ module.exports = {
     update: function (req, res) {
         var id = req.params.id;
 
-        AddressModel.findOne({_id: id}, function (err, address) {
+        AddressModel.findOne({_id: id}, function (err, searchAddress) {
             if (err) {
                 return res.status(500).json({
-                    message: 'Error when getting address',
+                    message: 'Error when getting searchAddress',
                     error: err
                 });
             }
 
-            if (!address) {
+            if (!searchAddress) {
                 return res.status(404).json({
-                    message: 'No such address'
+                    message: 'No such searchAddress'
                 });
             }
 
-            address.id = req.body.id ? req.body.id : address.id;
-			address.title = req.body.title ? req.body.title : address.title;
-			address.addressLine1 = req.body.addressLine1 ? req.body.addressLine1 : address.addressLine1;
-			address.addressLine2 = req.body.addressLine2 ? req.body.addressLine2 : address.addressLine2;
-			address.town = req.body.town ? req.body.town : address.town;
-			address.postcode = req.body.postcode ? req.body.postcode : address.postcode;
-			address.country = req.body.country ? req.body.country : address.country;
-			address.latitude = req.body.latitude ? req.body.latitude : address.latitude;
-			address.longitude = req.body.longitude ? req.body.longitude : address.longitude;
+            searchAddress.id = req.body.id ? req.body.id : searchAddress.id;
+			searchAddress.title = req.body.title ? req.body.title : searchAddress.title;
+			searchAddress.addressLine1 = req.body.addressLine1 ? req.body.addressLine1 : searchAddress.addressLine1;
+			searchAddress.addressLine2 = req.body.addressLine2 ? req.body.addressLine2 : searchAddress.addressLine2;
+			searchAddress.town = req.body.town ? req.body.town : searchAddress.town;
+			searchAddress.postcode = req.body.postcode ? req.body.postcode : searchAddress.postcode;
+			searchAddress.country = req.body.country ? req.body.country : searchAddress.country;
+			searchAddress.latitude = req.body.latitude ? req.body.latitude : searchAddress.latitude;
+			searchAddress.longitude = req.body.longitude ? req.body.longitude : searchAddress.longitude;
 			
-            address.save(function (err, address) {
+            searchAddress.save(function (err, searchAddress) {
                 if (err) {
                     return res.status(500).json({
-                        message: 'Error when updating address.',
+                        message: 'Error when updating searchAddress.',
                         error: err
                     });
                 }
 
-                return res.json(address);
+                return res.json(searchAddress);
             });
         });
     },
@@ -124,10 +124,10 @@ module.exports = {
     remove: function (req, res) {
         var id = req.params.id;
 
-        AddressModel.findByIdAndRemove(id, function (err, address) {
+        AddressModel.findByIdAndRemove(id, function (err, searchAddress) {
             if (err) {
                 return res.status(500).json({
-                    message: 'Error when deleting the address.',
+                    message: 'Error when deleting the searchAddress.',
                     error: err
                 });
             }

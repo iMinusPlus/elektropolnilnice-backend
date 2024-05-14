@@ -1,7 +1,7 @@
-var StatustypeModel = require('../models/statusTypeModel.js');
+var StatustypeModel = require('../../models/openmap_search/searchStatusTypeModel.js');
 
 /**
- * statusTypeController.js
+ * searchStatusTypeController.js
  *
  * @description :: Server-side logic for managing statusTypes.
  */
@@ -14,7 +14,7 @@ module.exports = {
         StatustypeModel.find(function (err, statusTypes) {
             if (err) {
                 return res.status(500).json({
-                    message: 'Error when getting statusType.',
+                    message: 'Error when getting searchStatusType.',
                     error: err
                 });
             }
@@ -29,21 +29,21 @@ module.exports = {
     show: function (req, res) {
         var id = req.params.id;
 
-        StatustypeModel.findOne({_id: id}, function (err, statusType) {
+        StatustypeModel.findOne({_id: id}, function (err, searchStatusType) {
             if (err) {
                 return res.status(500).json({
-                    message: 'Error when getting statusType.',
+                    message: 'Error when getting searchStatusType.',
                     error: err
                 });
             }
 
-            if (!statusType) {
+            if (!searchStatusType) {
                 return res.status(404).json({
-                    message: 'No such statusType'
+                    message: 'No such searchStatusType'
                 });
             }
 
-            return res.json(statusType);
+            return res.json(searchStatusType);
         });
     },
 
@@ -51,22 +51,22 @@ module.exports = {
      * statusTypeController.create()
      */
     create: function (req, res) {
-        var statusType = new StatustypeModel({
+        var searchStatusType = new StatustypeModel({
 			id : req.body.id,
 			operational : req.body.operational,
 			userSelectable : req.body.userSelectable,
 			title : req.body.title
         });
 
-        statusType.save(function (err, statusType) {
+        searchStatusType.save(function (err, searchStatusType) {
             if (err) {
                 return res.status(500).json({
-                    message: 'Error when creating statusType',
+                    message: 'Error when creating searchStatusType',
                     error: err
                 });
             }
 
-            return res.status(201).json(statusType);
+            return res.status(201).json(searchStatusType);
         });
     },
 
@@ -76,34 +76,34 @@ module.exports = {
     update: function (req, res) {
         var id = req.params.id;
 
-        StatustypeModel.findOne({_id: id}, function (err, statusType) {
+        StatustypeModel.findOne({_id: id}, function (err, searchStatusType) {
             if (err) {
                 return res.status(500).json({
-                    message: 'Error when getting statusType',
+                    message: 'Error when getting searchStatusType',
                     error: err
                 });
             }
 
-            if (!statusType) {
+            if (!searchStatusType) {
                 return res.status(404).json({
-                    message: 'No such statusType'
+                    message: 'No such searchStatusType'
                 });
             }
 
-            statusType.id = req.body.id ? req.body.id : statusType.id;
-			statusType.operational = req.body.operational ? req.body.operational : statusType.operational;
-			statusType.userSelectable = req.body.userSelectable ? req.body.userSelectable : statusType.userSelectable;
-			statusType.title = req.body.title ? req.body.title : statusType.title;
+            searchStatusType.id = req.body.id ? req.body.id : searchStatusType.id;
+			searchStatusType.operational = req.body.operational ? req.body.operational : searchStatusType.operational;
+			searchStatusType.userSelectable = req.body.userSelectable ? req.body.userSelectable : searchStatusType.userSelectable;
+			searchStatusType.title = req.body.title ? req.body.title : searchStatusType.title;
 			
-            statusType.save(function (err, statusType) {
+            searchStatusType.save(function (err, searchStatusType) {
                 if (err) {
                     return res.status(500).json({
-                        message: 'Error when updating statusType.',
+                        message: 'Error when updating searchStatusType.',
                         error: err
                     });
                 }
 
-                return res.json(statusType);
+                return res.json(searchStatusType);
             });
         });
     },
@@ -114,10 +114,10 @@ module.exports = {
     remove: function (req, res) {
         var id = req.params.id;
 
-        StatustypeModel.findByIdAndRemove(id, function (err, statusType) {
+        StatustypeModel.findByIdAndRemove(id, function (err, searchStatusType) {
             if (err) {
                 return res.status(500).json({
-                    message: 'Error when deleting the statusType.',
+                    message: 'Error when deleting the searchStatusType.',
                     error: err
                 });
             }

@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var Schema   = mongoose.Schema;
 
-var elektroPolnilnicaSchema = new Schema({
+var searchElektroPolnilnicaSchema = new Schema({
 	'id' : Number,
 	'dateLastVerified' : Date,
 	'UUID' : String,
@@ -18,4 +18,4 @@ var elektroPolnilnicaSchema = new Schema({
 	'comments' : String
 });
 
-module.exports = mongoose.model('elektroPolnilnica', elektroPolnilnicaSchema);
+module.exports = mongoose.model('searchElektroPolnilnica', searchElektroPolnilnicaSchema);

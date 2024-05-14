@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var statusTypeController = require('../controllers/statusTypeController.js');
+var statusTypeController = require('../../controllers/openmap_search/searchStatusTypeController.js');
 
 /*
  * GET

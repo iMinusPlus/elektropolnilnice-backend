@@ -34,7 +34,7 @@ run().catch(console.dir);
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var polnilniceRouter = require('./routes/elektroPolnilnicaRoutes');
+var polnilniceRouter = require('./routes/openmap_search/searchElektroPolnilnicaRoutes');
 
 var app = express();
 
