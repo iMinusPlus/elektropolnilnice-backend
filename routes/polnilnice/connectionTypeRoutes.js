@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var connectionTypeController = require('../controllers/connectionTypeController.js');
+var connectionTypeController = require('../../controllers/polnilnice/connectionTypeController.js');
 
 /*
  * GET

@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var elektroPolnilnicaController = require('../controllers/elektroPolnilnicaController.js');
+var elektroPolnilnicaController = require('../../controllers/polnilnice/elektroPolnilnicaController.js');
 
 /*
  * GET

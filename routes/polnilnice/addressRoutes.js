@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var addressController = require('../controllers/addressController.js');
+var addressController = require('../../controllers/polnilnice/addressController.js');
 
 /*
  * GET

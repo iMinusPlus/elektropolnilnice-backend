@@ -1,4 +1,4 @@
-var AddressModel = require('../models/addressModel.js');
+var AddressModel = require('../../models/polnilnice/addressModel.js');
 
 /**
  * addressController.js

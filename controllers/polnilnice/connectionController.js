@@ -1,4 +1,4 @@
-var ConnectionModel = require('../models/connectionModel.js');
+var ConnectionModel = require('../../models/polnilnice/connectionModel.js');
 
 /**
  * connectionController.js

@@ -1,4 +1,4 @@
-var PolnilnicastatusModel = require('../models/polnilnicaStatusModel.js');
+var PolnilnicastatusModel = require('../../models/polnilnice/polnilnicaStatusModel.js');
 
 /**
  * polnilnicaStatusController.js

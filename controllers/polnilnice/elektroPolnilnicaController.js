@@ -1,4 +1,4 @@
-var ElektropolnilnicaModel = require('../models/elektroPolnilnicaModel.js');
+var ElektropolnilnicaModel = require('../../models/polnilnice/elektroPolnilnicaModel.js');
 
 /**
  * elektroPolnilnicaController.js

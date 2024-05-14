@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var polnilnicaStatusController = require('../controllers/polnilnicaStatusController.js');
+var polnilnicaStatusController = require('../../controllers/polnilnice/polnilnicaStatusController.js');
 
 /*
  * GET
