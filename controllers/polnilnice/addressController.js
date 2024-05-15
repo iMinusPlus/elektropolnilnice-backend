@@ -1,4 +1,4 @@
-var AddressModel = require('../models/addressModel.js');
+var AddressModel = require('../../models/polnilnice/addressModel.js');
 
 /**
  * addressController.js
@@ -54,8 +54,6 @@ module.exports = {
         var address = new AddressModel({
 			id : req.body.id,
 			title : req.body.title,
-			addressLine1 : req.body.addressLine1,
-			addressLine2 : req.body.addressLine2,
 			town : req.body.town,
 			postcode : req.body.postcode,
 			country : req.body.country,
@@ -97,8 +95,6 @@ module.exports = {
 
             address.id = req.body.id ? req.body.id : address.id;
 			address.title = req.body.title ? req.body.title : address.title;
-			address.addressLine1 = req.body.addressLine1 ? req.body.addressLine1 : address.addressLine1;
-			address.addressLine2 = req.body.addressLine2 ? req.body.addressLine2 : address.addressLine2;
 			address.town = req.body.town ? req.body.town : address.town;
 			address.postcode = req.body.postcode ? req.body.postcode : address.postcode;
 			address.country = req.body.country ? req.body.country : address.country;

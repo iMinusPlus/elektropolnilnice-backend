@@ -1,4 +1,4 @@
-var ElektropolnilnicaModel = require('../models/elektroPolnilnicaModel.js');
+var ElektropolnilnicaModel = require('../../models/polnilnice/elektroPolnilnicaModel.js');
 
 /**
  * elektroPolnilnicaController.js
@@ -57,14 +57,15 @@ module.exports = {
 			UUID : req.body.UUID,
 			dataProviderID : req.body.dataProviderID,
 			usageCost : req.body.usageCost,
-			usageTypeID : req.body.usageTypeID,
-			addressID : req.body.addressID,
-			connectionID : req.body.connectionID,
+			usageType : req.body.usageType,
+			address : req.body.address,
+			connections : req.body.connections,
 			dateCreated : req.body.dateCreated,
+			dateAddedToOurApp : req.body.dateAddedToOurApp,
 			submissionStatusTypeID : req.body.submissionStatusTypeID,
 			numberOfPoints : req.body.numberOfPoints,
-			statusTypeID : req.body.statusTypeID,
-			dateLastConfirmed : req.body.dateLastConfirmed,
+			status : req.body.status,
+			dateLastCOnfirmed : req.body.dateLastCOnfirmed,
 			comments : req.body.comments
         });
 
@@ -105,14 +106,15 @@ module.exports = {
 			elektroPolnilnica.UUID = req.body.UUID ? req.body.UUID : elektroPolnilnica.UUID;
 			elektroPolnilnica.dataProviderID = req.body.dataProviderID ? req.body.dataProviderID : elektroPolnilnica.dataProviderID;
 			elektroPolnilnica.usageCost = req.body.usageCost ? req.body.usageCost : elektroPolnilnica.usageCost;
-			elektroPolnilnica.usageTypeID = req.body.usageTypeID ? req.body.usageTypeID : elektroPolnilnica.usageTypeID;
-			elektroPolnilnica.addressID = req.body.addressID ? req.body.addressID : elektroPolnilnica.addressID;
-			elektroPolnilnica.connectionID = req.body.connectionID ? req.body.connectionID : elektroPolnilnica.connectionID;
+			elektroPolnilnica.usageType = req.body.usageType ? req.body.usageType : elektroPolnilnica.usageType;
+			elektroPolnilnica.address = req.body.address ? req.body.address : elektroPolnilnica.address;
+			elektroPolnilnica.connections = req.body.connections ? req.body.connections : elektroPolnilnica.connections;
 			elektroPolnilnica.dateCreated = req.body.dateCreated ? req.body.dateCreated : elektroPolnilnica.dateCreated;
+			elektroPolnilnica.dateAddedToOurApp = req.body.dateAddedToOurApp ? req.body.dateAddedToOurApp : elektroPolnilnica.dateAddedToOurApp;
 			elektroPolnilnica.submissionStatusTypeID = req.body.submissionStatusTypeID ? req.body.submissionStatusTypeID : elektroPolnilnica.submissionStatusTypeID;
 			elektroPolnilnica.numberOfPoints = req.body.numberOfPoints ? req.body.numberOfPoints : elektroPolnilnica.numberOfPoints;
-			elektroPolnilnica.statusTypeID = req.body.statusTypeID ? req.body.statusTypeID : elektroPolnilnica.statusTypeID;
-			elektroPolnilnica.dateLastConfirmed = req.body.dateLastConfirmed ? req.body.dateLastConfirmed : elektroPolnilnica.dateLastConfirmed;
+			elektroPolnilnica.status = req.body.status ? req.body.status : elektroPolnilnica.status;
+			elektroPolnilnica.dateLastCOnfirmed = req.body.dateLastCOnfirmed ? req.body.dateLastCOnfirmed : elektroPolnilnica.dateLastCOnfirmed;
 			elektroPolnilnica.comments = req.body.comments ? req.body.comments : elektroPolnilnica.comments;
 			
             elektroPolnilnica.save(function (err, elektroPolnilnica) {
@@ -144,20 +146,5 @@ module.exports = {
 
             return res.status(204).json();
         });
-    },
-
-    testOpenCharge: async function (req, res) {
-        const url = new URL("https://api.openchargemap.io/v3/poi/?output=json&countrycode=SI&maxresults=1&key=50062ab3-b707-4dea-9da7-c8611695a9ff"); //todo potem spremeniti in sestaviti po pravilih
-        try {
-            const response = await fetch(url);
-            if (!response.ok) {
-                throw new Error("Something went wrong" + response.statusText);
-            }
-            const data = await response.json();
-            // console.log(data)
-            return res.json(data);
-        } catch (error) {
-            console.error(error)
-        }
-    },
+    }
 };

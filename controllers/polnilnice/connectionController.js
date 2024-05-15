@@ -1,4 +1,4 @@
-var ConnectionModel = require('../models/connectionModel.js');
+var ConnectionModel = require('../../models/polnilnice/connectionModel.js');
 
 /**
  * connectionController.js
@@ -53,14 +53,12 @@ module.exports = {
     create: function (req, res) {
         var connection = new ConnectionModel({
 			id : req.body.id,
-			connectionTypeID : req.body.connectionTypeID,
+			connectionType : req.body.connectionType,
 			reference : req.body.reference,
-			statusTypeID : req.body.statusTypeID,
-			levelID : req.body.levelID,
 			amps : req.body.amps,
 			voltage : req.body.voltage,
 			powerKW : req.body.powerKW,
-			currentTypeID : req.body.currentTypeID,
+			curentType : req.body.curentType,
 			quantity : req.body.quantity,
 			comments : req.body.comments
         });
@@ -98,14 +96,12 @@ module.exports = {
             }
 
             connection.id = req.body.id ? req.body.id : connection.id;
-			connection.connectionTypeID = req.body.connectionTypeID ? req.body.connectionTypeID : connection.connectionTypeID;
+			connection.connectionType = req.body.connectionType ? req.body.connectionType : connection.connectionType;
 			connection.reference = req.body.reference ? req.body.reference : connection.reference;
-			connection.statusTypeID = req.body.statusTypeID ? req.body.statusTypeID : connection.statusTypeID;
-			connection.levelID = req.body.levelID ? req.body.levelID : connection.levelID;
 			connection.amps = req.body.amps ? req.body.amps : connection.amps;
 			connection.voltage = req.body.voltage ? req.body.voltage : connection.voltage;
 			connection.powerKW = req.body.powerKW ? req.body.powerKW : connection.powerKW;
-			connection.currentTypeID = req.body.currentTypeID ? req.body.currentTypeID : connection.currentTypeID;
+			connection.curentType = req.body.curentType ? req.body.curentType : connection.curentType;
 			connection.quantity = req.body.quantity ? req.body.quantity : connection.quantity;
 			connection.comments = req.body.comments ? req.body.comments : connection.comments;
 			

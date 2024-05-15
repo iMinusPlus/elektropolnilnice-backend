@@ -1,4 +1,4 @@
-var ConnectiontypeModel = require('../models/connectionTypeModel.js');
+var ConnectiontypeModel = require('../../models/polnilnice/connectionTypeModel.js');
 
 /**
  * connectionTypeController.js
@@ -53,7 +53,7 @@ module.exports = {
     create: function (req, res) {
         var connectionType = new ConnectiontypeModel({
 			id : req.body.id,
-			formalName : req.body.formalName,
+			name : req.body.name,
 			discontinued : req.body.discontinued,
 			obsolete : req.body.obsolete,
 			title : req.body.title
@@ -92,7 +92,7 @@ module.exports = {
             }
 
             connectionType.id = req.body.id ? req.body.id : connectionType.id;
-			connectionType.formalName = req.body.formalName ? req.body.formalName : connectionType.formalName;
+			connectionType.name = req.body.name ? req.body.name : connectionType.name;
 			connectionType.discontinued = req.body.discontinued ? req.body.discontinued : connectionType.discontinued;
 			connectionType.obsolete = req.body.obsolete ? req.body.obsolete : connectionType.obsolete;
 			connectionType.title = req.body.title ? req.body.title : connectionType.title;
