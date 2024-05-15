@@ -7,6 +7,7 @@
 
 ## OPOMBE
 - modeli namenjeni za delanje z api-jem so v openmap_search direktorijih
+- modeli za nasp bazo so v direktoriju polnilnice
 
 ### TODO:
 - vzpostaviti API za vracanje podatkov
