@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Schema   = mongoose.Schema;
+var ConnectionTypeModel = require('./connectionTypeModel.js')
 
 var connectionSchema = new Schema({
 	'id' : Number,
@@ -15,5 +16,24 @@ var connectionSchema = new Schema({
 	'quantity' : Number,
 	'comments' : String
 });
+
+/**
+ * Pridobivanje iz connectionSchema
+ */
+connectionSchema.statics.getFromSearchConnection = function (from) {
+	fromConnectionType = ConnectionTypeModel.getFromSearchConnectionType(from.connectionType)
+
+	return new this({
+		id: from.id,
+		connectionType: fromConnectionType,
+		reference: from.reference,
+		amps: from.amps,
+		voltage: from.voltage,
+		powerKW: from.powerKW,
+		curentType: from.curentType,
+		quantity: from.quantity,
+		comments: "OpenChargeMap comment " + from.comments
+	})
+}
 
 module.exports = mongoose.model('connection', connectionSchema);

@@ -9,4 +9,14 @@ var connectionTypeSchema = new Schema({
 	'title' : String
 });
 
+connectionTypeSchema.statics.getFromSearchConnectionType = function (from) {
+	return new this({
+		id: from.id,
+		name: from.name,
+		discontinued: from.discontinued,
+		obsolete: from.obsolete,
+		title: from.title
+	})
+}
+
 module.exports = mongoose.model('connectionType', connectionTypeSchema);
