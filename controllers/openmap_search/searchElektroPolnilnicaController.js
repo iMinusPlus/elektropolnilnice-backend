@@ -1,5 +1,5 @@
-var ElektropolnilnicaModel = require('../../models/openmap_search/searchElektroPolnilnicaModel.js');
-var RealPolnilnica = require('../../models/polnilnice/elektroPolnilnicaModel.js')
+var ElektropolnilnicaOpenChargeModel = require('../../models/openmap_search/searchElektroPolnilnicaModel.js');
+var ElektropolnilnicaModel = require('../../models/polnilnice/elektroPolnilnicaModel.js')
 
 module.exports = {
     testOpenCharge: async function (req, res) {
@@ -12,8 +12,8 @@ module.exports = {
             }
             const data = await response.json();
             // return res.json(data);
-            let result = ElektropolnilnicaModel.getFromJson(data[0]);
-            return res.json(RealPolnilnica.getFromSearchPolnilnica(result));
+            let result = ElektropolnilnicaOpenChargeModel.getFromJson(data[0]);
+            return res.json(ElektropolnilnicaModel.getFromSearchPolnilnica(result));
         } catch (error) {
             console.error(error)
         }
@@ -28,28 +28,44 @@ module.exports = {
             }
             const data = await response.json();
             for (const item of data) {
-                let result = ElektropolnilnicaModel.getFromJson(item);
+                // print number of the item (each step)
+                console.log(data.indexOf(item));
+                // if (item === null) break;
+                let result = ElektropolnilnicaOpenChargeModel.getFromJson(item);
 
 
                 // find if exists RealPolnilnica with same id
-                var found = RealPolnilnica.findOne({
-                    _id: result._id
-                }, function (err, polnilnica) {
-                    if (err) {
-                        console.error(err);
-                        return res.status(500).json(err);
-                    }
-                });
+                try {
+                    var polnilnica = await ElektropolnilnicaModel.findOne({UUID: result.UUID});
 
-                if (found) {
-                    console.log("Updating");
-                }else{
-                    RealPolnilnica.create(result, function (err, connection) {
-                                if (err) {
-                                    console.error(err);
-                                    return res.status(500).json(err);
-                                }
-                            });
+                    if (polnilnica !== null) {
+                        console.log("Updating");
+                        // update polnilnica so it updates ElektropolnilnicaModel
+                        // try {
+                        //     ElektropolnilnicaModel.updateOne({UUID: result.UUID}, result, function (err, connection) {
+                        //         if (err) {
+                        //             console.error(err);
+                        //             return res.status(500).json(err);
+                        //         }
+                        //     });
+                        // } catch (err) {
+                        //     console.log("Error in updating polnilnica")
+                        //     console.error(err);
+                        //     return res.status(500).json(err);
+                        // }
+                    } else {
+                        console.log("Creating");
+                        ElektropolnilnicaModel.create(result, function (err, connection) {
+                            if (err) {
+                                console.error(err);
+                                return res.status(500).json(err);
+                            }
+                        });
+                    }
+                } catch (err) {
+                    console.log("Error in finding polnilnica")
+                    console.error(err);
+                    return res.status(500).json(err);
                 }
             }
 

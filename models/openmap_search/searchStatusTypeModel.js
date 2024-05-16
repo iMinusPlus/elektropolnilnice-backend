@@ -9,6 +9,7 @@ var searchStatusTypeSchema = new Schema({
 });
 
 searchStatusTypeSchema.statics.getFromJson = function(json) {
+	if (json === null) return null;
 	return new this({
 		id: json.ID,
 		operational: json.IsOperational,

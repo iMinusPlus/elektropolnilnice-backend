@@ -52,7 +52,7 @@ elektroPolnilnicaSchema.statics.getFromSearchPolnilnica = function(from) {
 		dateAddedToOurApp: Date.now(),
 		// submissionStatusTypeID: ,
 		numberOfPoints: from.numberOfPoints,
-		// status: fromStatus,
+		status: fromStatus,
 		dateLastCOnfirmed: from.dateLastVerified,
 		comments: "OpenChargeMap comment " + from.comment
 	})
