@@ -3,6 +3,9 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const bodyParser = require('body-parser');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
 var mongoose = require('mongoose');
 const config = require('./config');
@@ -24,6 +27,7 @@ var usersRouter = require('./routes/userRoutes');
 var polnilniceRouter = require('./routes/openmap_search/searchElektroPolnilnicaRoutes');
 
 var app = express();
+const secretKey = 'your-secret-key'; // Uporabite močan skrivni ključ
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
