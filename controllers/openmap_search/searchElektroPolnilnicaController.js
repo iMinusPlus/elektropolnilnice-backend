@@ -30,31 +30,30 @@ module.exports = {
             for (const item of data) {
                 let result = ElektropolnilnicaModel.getFromJson(item);
 
-                // console.log(result);
-                console.log(result._id);
+
                 // find if exists RealPolnilnica with same id
-                RealPolnilnica.findOne({
+                var found = RealPolnilnica.findOne({
                     _id: result._id
                 }, function (err, polnilnica) {
                     if (err) {
                         console.error(err);
                         return res.status(500).json(err);
                     }
-
-                    if (!polnilnica){
-                        console.log("Not found - creating new one");
-                        RealPolnilnica.create(result, function (err, connection) {
-                            if (err) {
-                                console.error(err);
-                                return res.status(500).json(err);
-                            }
-                        });
-                    }else{
-                        console.log("Updating");
-                    }
                 });
-                return res.json("Data saved");
+
+                if (found) {
+                    console.log("Updating");
+                }else{
+                    RealPolnilnica.create(result, function (err, connection) {
+                                if (err) {
+                                    console.error(err);
+                                    return res.status(500).json(err);
+                                }
+                            });
+                }
             }
+
+            return res.json("Data saved");
         } catch (error) {
             console.error(error)
         }
