@@ -49,7 +49,6 @@ searchElektroPolnilnicaSchema.statics.getFromJson = function (data) {
 		dateCreated: data.DateCreated ? new Date(data.DateCreated) : null,
 		submissionStatusTypeID: data.SubmissionStatusTypeID,
 		numberOfPoints: data.NumberOfPoints,
-		// statusType: data.statusTypeID,
 		dateLastConfirmed: data.DateLastConfirmed ? new Date(data.DateLastConfirmed) : null,
 		statusType: getStatusType,
 		address: getAddress,
