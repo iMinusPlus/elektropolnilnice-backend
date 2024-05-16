@@ -22,9 +22,12 @@ mongoose.connection.on('connected', () => {
 mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 var indexRouter = require('./routes/index');
-var polnilniceRouter = require('./routes/openChargeMapAPI/searchElektroPolnilnicaRoutes');
+var polnilniceOpenChargeRouter = require('./routes/openChargeMapAPI/searchElektroPolnilnicaRoutes');
 var elektroPolnilnicaRouter = require('./routes/polnilnice/elektroPolnilnicaRoutes');
+var addressRoutes = require('./routes/polnilnice/addressRoutes');
 var usersRouter = require('./routes/userRoutes');
+var connectionRoutes = require('./routes/polnilnice/connectionRoutes');
+var connectionTypeRoutes = require('./routes/polnilnice/connectionTypeRoutes');
 
 var app = express();
 const secretKey = 'your-secret-key'; // Uporabite močan skrivni ključ
@@ -61,8 +64,11 @@ app.use(function (req, res, next) {
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/polnilnice', polnilniceRouter);
+app.use('/polnilniceopencharge', polnilniceOpenChargeRouter);
 app.use('/elektroPolnilnice', elektroPolnilnicaRouter);
+app.use('/address', addressRoutes);
+app.use('/connection', connectionRoutes);
+app.use('/connectionType', connectionTypeRoutes);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
