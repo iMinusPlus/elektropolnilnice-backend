@@ -3,40 +3,35 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const bodyParser = require('body-parser');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+
+var mongoose = require('mongoose');
 const config = require('./config');
 
-// vključimo mongoose in ga povežemo z MongoDB
-var uri = config.database.connection;
 
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  }
+
+var mongoDB = config.database.connection;
+mongoose.connect(mongoDB);
+mongoose.Promise = global.Promise;
+mongoose.set('strictQuery', false);
+mongoose.connection.on('connected', () => {
+    console.log('Connected to MongoDB');
 });
-
-async function run() {
-  try {
-    // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
-    // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
-  }
-}
-run().catch(console.dir);
+mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var polnilniceRouter = require('./routes/openmap_search/searchElektroPolnilnicaRoutes');
+
+var polnilniceOpenChargeRouter = require('./routes/openChargeMapAPI/searchElektroPolnilnicaRoutes');
+var elektroPolnilnicaRouter = require('./routes/polnilnice/elektroPolnilnicaRoutes');
+var addressRoutes = require('./routes/polnilnice/addressRoutes');
+var usersRouter = require('./routes/userRoutes');
+var connectionRoutes = require('./routes/polnilnice/connectionRoutes');
+var connectionTypeRoutes = require('./routes/polnilnice/connectionTypeRoutes');
 
 var app = express();
+const secretKey = 'your-secret-key'; // Uporabite močan skrivni ključ
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -44,28 +39,53 @@ app.set('view engine', 'jade');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+/**
+ * Vključimo session in connect-mongo.
+ * Connect-mongo skrbi, da se session hrani v bazi.
+ * Posledično ostanemo prijavljeni, tudi ko spremenimo kodo (restartamo strežnik)
+ */
+var session = require('express-session');
+var MongoStore = require('connect-mongo');
+app.use(session({
+  secret: 'work hard',
+  resave: true,
+  saveUninitialized: false,
+  store: MongoStore.create({mongoUrl: mongoDB})
+}));
+//Shranimo sejne spremenljivke v locals
+//Tako lahko do njih dostopamo v vseh view-ih (glej layout.hbs)
+app.use(function (req, res, next) {
+  res.locals.session = req.session;
+  next();
+});
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/polnilnice', polnilniceRouter);
+app.use('/polnilniceopencharge', polnilniceOpenChargeRouter);
+app.use('/elektroPolnilnice', elektroPolnilnicaRouter);
+app.use('/address', addressRoutes);
+app.use('/connection', connectionRoutes);
+app.use('/connectionType', connectionTypeRoutes);
+
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
+app.use(function (req, res, next) {
+    next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+app.use(function (err, req, res) {
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+    // render the error page
+    res.status(err.status || 500);
+    res.render('error');
 });
 
 module.exports = app;
