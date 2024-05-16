@@ -1,4 +1,10 @@
+const bodyParser = require('body-parser');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 var UserModel = require('../models/userModel.js');
+
+const secretKey = 'your-secret-key'; // Poskrbite, da je to močan skrivni ključ
+
 
 /**
  * userController.js
@@ -176,14 +182,19 @@ module.exports = {
     login: function(req, res, next){
         UserModel.authenticate(req.body.username, req.body.password, function(err, user){
             if(err || !user){
-                var err = new Error('Wrong username or paassword');
+                var err = new Error('Wrong username or password');
                 err.status = 401;
                 return next(err);
             }
             req.session.userId = user._id;
 
-            //res.redirect('/users/profile');
-            return res.json(user);
+            // Kreiranje zetona pri uspesni prijavi
+            const token = jwt.sign({ id: user._id, username: user.username }, secretKey, { expiresIn: '1h' });
+
+            // Shranjevanje zetona v sejo
+            req.session.token = token;
+
+            res.json({ message: 'Login successful', token: token});
         });
     },
 
@@ -216,5 +227,24 @@ module.exports = {
                 }
             });
         }
+    },
+
+    /**
+     * userController.protected()
+     */
+    protected: function(req, res, next){
+        const token = req.session.token;
+
+        if (!token) {
+            return res.status(401).send('Access denied');
+        }
+
+        jwt.verify(token, secretKey, (err, decoded) => {
+            if (err) {
+                return res.status(401).send('Invalid token');
+            }
+
+            res.json({ message: 'Protected content', user: decoded });
+        });
     }
 };

@@ -10,6 +10,7 @@ router.get('/login', userController.showLogin);//
 
 router.get('/profile', userController.profile);
 router.get('/logout', userController.logout);
+router.get('/protected', userController.protected);
 router.get('/:id', userController.show);
 
 router.post('/', userController.create);
