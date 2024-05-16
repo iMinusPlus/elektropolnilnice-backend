@@ -22,6 +22,7 @@ mongoose.connection.on('connected', () => {
 mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 var indexRouter = require('./routes/index');
+
 var polnilniceOpenChargeRouter = require('./routes/openChargeMapAPI/searchElektroPolnilnicaRoutes');
 var elektroPolnilnicaRouter = require('./routes/polnilnice/elektroPolnilnicaRoutes');
 var addressRoutes = require('./routes/polnilnice/addressRoutes');
@@ -69,6 +70,7 @@ app.use('/elektroPolnilnice', elektroPolnilnicaRouter);
 app.use('/address', addressRoutes);
 app.use('/connection', connectionRoutes);
 app.use('/connectionType', connectionTypeRoutes);
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
