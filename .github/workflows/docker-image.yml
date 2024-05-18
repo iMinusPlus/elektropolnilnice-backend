@@ -23,10 +23,10 @@ jobs:
         password: ${{ secrets.DOCKER_TOKEN }}
         
     - name: Set up Docker Build
-      run: docker build -t ${{ secrets.DOCKER_USERNAME }}/polnilnica-backend:latest .
+      run: docker build -t ${{ secrets.DOCKER_USERNAME }}/elektropolnilnice-backend:latest .
 
     - name: Push Docker Image
-      run: docker push ${{ secrets.DOCKER_USERNAME }}polnilnica-backend/myapp:latest
+      run: docker push ${{ secrets.DOCKER_USERNAME }}elektropolnilnice-backend/myapp:latest
 
     - name: Log out from Docker Hub
       run: docker logout
