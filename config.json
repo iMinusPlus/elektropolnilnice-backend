@@ -1,0 +1,6 @@
+{
+  "database": {
+    "comment": "This is the connection string for the MongoDB database. Replace <user> and <password> with your own credentials.",
+    "connection": "mongodb+srv://imp:3MY6Os4CUwBSfc6p@ep-cluster0.d1vzzje.mongodb.net/?retryWrites=true&w=majority&appName=EP-Cluster0"
+  }
+}
