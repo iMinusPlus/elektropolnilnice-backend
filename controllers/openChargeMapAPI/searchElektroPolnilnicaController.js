@@ -1,27 +1,20 @@
-var ElektropolnilnicaOpenChargeModel = require('../../models/openChargeMapAPI/searchElektroPolnilnicaModel.js');
 var ElektropolnilnicaModel = require('../../models/polnilnice/elektroPolnilnicaModel.js')
 var ConnectionModel = require('../../models/polnilnice/connectionModel')
 var AddressModel = require('../../models/polnilnice/addressModel')
 const ConnectionTypeModel = require("../../models/polnilnice/connectionTypeModel");
-const SearchAddressModel = require("../../models/openChargeMapAPI/searchAddressModel");
-const SearchConnectionModel = require("../../models/openChargeMapAPI/searchConnectionModel");
-const SearchConnectionTypeModel = require("../../models/openChargeMapAPI/searchConnectionTypeModel");
 // const {Connection} = require("mongoose");
 
 
 module.exports = {
     testOpenCharge: async function (req, res) {
         const url = new URL("https://api.openchargemap.io/v3/poi/?output=json&countrycode=SI&latitude=46.5547&longitude=15.6459&maxresults=100&distance=25&key=50062ab3-b707-4dea-9da7-c8611695a9ff");
-        // const url = new URL("https://api.openchargemap.io/v3/poi/?output=json&countrycode=SI&maxresults=1&key=50062ab3-b707-4dea-9da7-c8611695a9ff"); //todo potem spremeniti in sestaviti po pravilih
         try {
             const response = await fetch(url);
             if (!response.ok) {
                 throw new Error("Something went wrong" + response.statusText);
             }
             const data = await response.json();
-            // return res.json(data);
-            let result = ElektropolnilnicaOpenChargeModel.getFromJson(data[0]);
-            return res.json(ElektropolnilnicaModel.getFromSearchPolnilnica(result));
+            return res.json(ElektropolnilnicaModel.getFromOpenChargeJson(data[0]));
         } catch (error) {
             console.error(error)
         }
@@ -37,7 +30,7 @@ module.exports = {
             const data = await response.json();
             for (const item of data) {
 
-                let result = ElektropolnilnicaOpenChargeModel.getFromJson(item);
+                let result = ElektropolnilnicaModel.getFromOpenChargeJson(item);
 
                 // find if exists RealPolnilnica with same id
                 try {
