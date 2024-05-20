@@ -23,7 +23,7 @@ mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection 
 
 var indexRouter = require('./routes/index');
 
-var polnilniceOpenChargeRouter = require('./routes/openmap_search/searchElektroPolnilnicaRoutes');
+var polnilniceOpenChargeRouter = require('./routes/openChargeMapAPI/searchElektroPolnilnicaRoutes');
 var elektroPolnilnicaRouter = require('./routes/polnilnice/elektroPolnilnicaRoutes');
 var addressRoutes = require('./routes/polnilnice/addressRoutes');
 var usersRouter = require('./routes/userRoutes');
