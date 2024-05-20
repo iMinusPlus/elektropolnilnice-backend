@@ -2,8 +2,8 @@ const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 var UserModel = require('../models/userModel.js');
-
 const secretKey = 'your-secret-key'; // Poskrbite, da je to močan skrivni ključ
+
 
 
 /**
@@ -118,37 +118,44 @@ module.exports = {
      * userController.update()
      */
     changeAvatar: function (req, res) {
-        var id = req.session.id;
-
-        UserModel.findOne({_id: id}, function (err, user) {
+        const token = req.cookies.jwt; // Preberemo JWT iz piškotka
+        jwt.verify(token, secretKey, (err, decoded) => {
             if (err) {
-                return res.status(500).json({
-                    message: 'Error when getting user',
-                    error: err
-                });
+                return res.status(401).send('Invalid token');
             }
 
-            if (!user) {
-                return res.status(404).json({
-                    message: 'No such user'
-                });
-            }
+            const userId = decoded.id; // Pridobimo ID uporabnika iz dekodiranih podatkov JWT
 
-            // Check if a new avatar file was uploaded
-            if (req.file) {
-                // Set new pathToAvatar based on uploaded file
-                user.pathToAvatar = "/images/" + req.file.filename;
-            }
-
-            user.save(function (err, user) {
+            UserModel.findOne({_id: userId}, function (err, user) {
                 if (err) {
                     return res.status(500).json({
-                        message: 'Error when updating user.',
+                        message: 'Error when getting user',
                         error: err
                     });
                 }
 
-                return res.json(user);
+                if (!user) {
+                    return res.status(404).json({
+                        message: 'No such user'
+                    });
+                }
+
+                // Check if a new avatar file was uploaded
+                if (req.file) {
+                    // Set new pathToAvatar based on uploaded file
+                    user.pathToAvatar = "/images/" + req.file.filename;
+                }
+
+                user.save(function (err, user) {
+                    if (err) {
+                        return res.status(500).json({
+                            message: 'Error when updating user.',
+                            error: err
+                        });
+                    }
+
+                    return res.json(user);
+                });
             });
         });
     },
@@ -180,71 +187,70 @@ module.exports = {
     },
 
     login: function(req, res, next){
-        UserModel.authenticate(req.body.username, req.body.password, function(err, user){
-            if(err || !user){
-                var err = new Error('Wrong username or password');
-                err.status = 401;
-                return next(err);
+        UserModel.authenticate(req.body.username, req.body.password, function(err, user) {
+            if (err || !user) {
+                const error = new Error('Wrong username or password');
+                error.status = 401;
+                return next(error);
             }
-            req.session.userId = user._id;
 
             // Kreiranje zetona pri uspesni prijavi
             const token = jwt.sign({ id: user._id, username: user.username }, secretKey, { expiresIn: '1h' });
 
-            // Shranjevanje zetona v sejo
-            req.session.token = token;
+            // Shranjevanje JWT v piškotek
+            res.cookie('jwt', token, { httpOnly: true }); // Piškotek bo dosegljiv samo preko HTTP zahtev, ne preko JavaScripta
 
-            res.json({ message: 'Login successful', token: token});
+            // Pošiljanje zetona kot odgovor
+            res.json({ message: 'Login successful', token: token });
         });
     },
 
     profile: function(req, res,next){
-        UserModel.findById(req.session.userId)
-            .exec(function(error, user){
-                if(error){
-                    return next(error);
-                } else{
-                    if(user===null){
-                        var err = new Error('Not authorized, go back!');
-                        err.status = 400;
-                        return next(err);
-                    } else{
-                        //return res.render('user/profile', user);
-                        return res.json(user);
+        const token = req.cookies.jwt; // Preberemo JWT iz piškotka
+        jwt.verify(token, secretKey, (err, decoded) => {
+            if (err) {
+                return res.status(401).send('Invalid token');
+            }
+
+            const userId = decoded.id; // Pridobimo ID uporabnika iz dekodiranih podatkov JWT
+
+            UserModel.findById(userId)
+                .exec(function(error, user) {
+                    if (error) {
+                        return next(error);
+                    } else {
+                        if (user === null) {
+                            var err = new Error('Not authorized, go back!');
+                            err.status = 400;
+                            return next(err);
+                        } else {
+                            return res.json(user);
+                        }
                     }
-                }
-            });
+                });
+        });
     },
 
     logout: function(req, res, next){
-        if(req.session){
-            req.session.destroy(function(err){
-                if(err){
-                    return next(err);
-                } else{
-                    //return res.redirect('/');
-                    return res.status(201).json({});
-                }
-            });
-        }
+        // Če želite izbrisati piškotek, morate nastaviti isto ime in pot kot pri nastavitvi piškotka
+        res.clearCookie('jwt'); // Brišemo piškotek, ki vsebuje JWT
+        return res.status(201).json({}); // Vrnemo prazen odgovor
     },
 
     /**
      * userController.protected()
      */
     protected: function(req, res, next){
-        const token = req.session.token;
-
-        if (!token) {
-            return res.status(401).send('Access denied');
-        }
-
+        const token = req.cookies.jwt; // Preberemo JWT iz piškotka
         jwt.verify(token, secretKey, (err, decoded) => {
             if (err) {
                 return res.status(401).send('Invalid token');
             }
 
-            res.json({ message: 'Protected content', user: decoded });
+            const userId = decoded.id; // Pridobimo ID uporabnika iz dekodiranih podatkov JWT
+            const username = decoded.username; // Pridobimo ID uporabnika iz dekodiranih podatkov JWT
+            res.json({token: token, id: userId, username: username});
+
         });
     }
 };
