@@ -6,6 +6,7 @@ var ConnectionModel = require('./connectionModel.js')
 
 var elektroPolnilnicaSchema = new Schema({
 	'id' : Number,
+	'idFromOpenCharge' : Number,
 	'dateLastVerified' : Date,
 	'UUID' : String,
 	'dataProviderID' : Number,
@@ -31,30 +32,26 @@ var elektroPolnilnicaSchema = new Schema({
 	'comments' : String
 });
 
-/**
- * Pridobivanje iz searchElektroPolnilnicaSchema
- */
-elektroPolnilnicaSchema.statics.getFromSearchPolnilnica = function(from) {
-	fromAddress = AddressModel.getFromSearchAddress(from.address)
-	fromStatus = from.status ? StatusModel.getFromSearchStatus(from.status) : null //todo preveriti
-	fromConnections = from.connections.map(conn => ConnectionModel.getFromSearchConnection(conn))
+elektroPolnilnicaSchema.statics.getFromOpenChargeJson = function(json) {
+	let getStatusType = StatusModel.getFromOpenChargeJson(json.StatusType)
+	let getAddress = AddressModel.getFromOpenChargeJson(json.AddressInfo)
+	let getConnections = json.Connections.map(conn => ConnectionModel.getFromOpenChargeJson(conn))
 
 	return new this({
-		// id: from.id,
-		dateLastVerified: from.dateLastVerified,
-		// UUID: from.UUID,
-		dataProviderID: from.dataProviderID,
-		usageCost: from.usageCost,
-		usageType: from.usageType,
-		address: fromAddress,
-		connections: fromConnections,
-		dateCreated: from.dateCreated,
-		dateAddedToOurApp: Date.now(),
-		// submissionStatusTypeID: ,
-		numberOfPoints: from.numberOfPoints,
-		// status: fromStatus,
-		dateLastCOnfirmed: from.dateLastVerified,
-		comments: "OpenChargeMap comment " + from.comment
+		idFromOpenCharge: json.id,
+		dateLastVerified: json.DateLastVerified ? new Date(json.DateLastVerified) : null,
+		UUID: json.UUID,
+		dataProviderID: json.DataProvider.ID,
+		usageCost: json.UsageCost,
+		usageTypeID: json.UsageTypeID,
+		connections: getConnections,
+		dateCreated: json.DateCreated ? new Date(json.DateCreated) : null,
+		submissionStatusTypeID: json.SubmissionStatusTypeID,
+		numberOfPoints: json.NumberOfPoints,
+		dateLastConfirmed: json.DateLastConfirmed ? new Date(jsonjson.DateLastConfirmed) : null,
+		statusType: getStatusType,
+		address: getAddress,
+		comments: json.Comments
 	})
 }
 

@@ -9,16 +9,13 @@ var polnilnicaStatusSchema = new Schema({
 	'title' : String
 });
 
-/**
- * Pridobivanje iz searchStatusTypeModel.js
- */
-polnilnicaStatusSchema.statics.getFromSearchStatus = function (from) {
+polnilnicaStatusSchema.statics.getFromOpenChargeJson = function(json) {
+	if (json === null) return null;
 	return new this({
-		// id: from.id, //todo random number
-		operational: from.operational,
-		userSelectable: from.userSelectable,
-		currentlyOccupied: from.currentlyOccupied,
-		title: from.title
+		id: json.ID,
+		operational: json.IsOperational,
+		userSelectable: json.IsUserSelectable,
+		title: json.Title
 	})
 }
 

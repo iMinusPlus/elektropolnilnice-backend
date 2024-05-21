@@ -17,22 +17,20 @@ var connectionSchema = new Schema({
 	'comments' : String
 });
 
-/**
- * Pridobivanje iz connectionSchema
- */
-connectionSchema.statics.getFromSearchConnection = function (from) {
-	fromConnectionType = ConnectionTypeModel.getFromSearchConnectionType(from.connectionType)
+connectionSchema.statics.getFromOpenChargeJson = function (json) {
+	let getConnectionType = ConnectionTypeModel.getFromOpenChargeJson(json.ConnectionType)
 
 	return new this({
-		id: from.id,
-		connectionType: fromConnectionType,
-		reference: from.reference,
-		amps: from.amps,
-		voltage: from.voltage,
-		powerKW: from.powerKW,
-		curentType: from.curentType,
-		quantity: from.quantity,
-		comments: "OpenChargeMap comment " + from.comments
+		id: json.ID,
+		connectionType: getConnectionType,
+		reference: json.Reference,
+		levelID: json.LevelID,
+		amps: json.Amps,
+		voltage: json.Voltage,
+		powerKW: json.PowerKW,
+		currentTypeID: json.CurrentTypeID,
+		quantity: json.Quantity,
+		comments: json.Comments
 	})
 }
 

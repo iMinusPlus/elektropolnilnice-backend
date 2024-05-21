@@ -11,18 +11,17 @@ var addressSchema = new Schema({
 	'longitude' : String
 });
 
-/**
- * Pridobivanje iz searchAddressModel.js
- */
-addressSchema.statics.getFromSearchAddress = function (from) {
+addressSchema.statics.getFromOpenChargeJson = function (json) {
 	return new this({
-		id: from.id, //Todo random number
-		title: from.title,
-		town: from.town,
-		postcode: from.postcode,
-		country: from.country,
-		latitude: from.latitude,
-		longitude: from.longitude
+		id: json.ID,
+		title: json.Title,
+		addressLine1: json.AddressLine1,
+		addressLine2: json.AddressLine2,
+		town: json.Town,
+		postcode: json.Postcode,
+		country: json.Country,
+		latitude: json.Latitude,
+		longitude: json.Longitude,
 	})
 }
 
