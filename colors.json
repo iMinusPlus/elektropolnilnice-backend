@@ -1,0 +1,40 @@
+[
+    {
+        "name": "Dark gray",
+        "url": "https://coolors.co/222831",
+        "hex": "#222831",
+        "rgb": "rgb(34, 40, 49)",
+        "hsl": "hsl(210, 17%, 16%)",
+        "cmyk": "cmyk(31, 18, 0, 81)"
+    },
+    {
+        "name": "Gray",
+        "url": "https://coolors.co/31363f",
+        "hex": "#31363F",
+        "rgb": "rgb(49, 54, 63)",
+        "hsl": "hsl(218, 13%, 22%)",
+        "cmyk": "cmyk(22, 14, 0, 75)"
+    },
+    {
+        "name": "Light",
+        "url": "https://coolors.co/eeeeee",
+        "hex": "#EEEEEE",
+        "rgb": "rgb(238, 238, 238)",
+        "hsl": "hsl(0, 0%, 93%)",
+        "cmyk": "cmyk(0, 0, 0, 7)"
+    },
+    {
+        "name": "Primary",
+        "hex": "#1bba06ff",
+        "rgb": "rgb(27, 186, 6)",
+        "hsl": "hsl(113, 94%, 37%)",
+        "cmyk": "cmyk(85, 0, 97, 27)"
+    },
+    {
+        "name": "Secondary",
+        "hex": "#014feefa",
+        "rgb": "rgb(1, 79, 238)",
+        "hsl": "hsl(217, 99%, 47%)",
+        "cmyk": "cmyk(100, 67, 0, 7)"
+    }
+]
