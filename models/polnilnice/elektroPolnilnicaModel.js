@@ -6,7 +6,6 @@ var ConnectionModel = require('./connectionModel.js')
 
 var elektroPolnilnicaSchema = new Schema({
 	'id' : Number,
-	'idFromOpenCharge' : Number,
 	'dateLastVerified' : Date,
 	'UUID' : String,
 	'dataProviderID' : Number,
