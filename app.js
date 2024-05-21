@@ -31,6 +31,13 @@ var connectionRoutes = require('./routes/polnilnice/connectionRoutes');
 var connectionTypeRoutes = require('./routes/polnilnice/connectionTypeRoutes');
 
 var app = express();
+
+var cors = require('cors');
+app.use(cors({
+    credentials: true,
+    origin: true
+}));
+
 const secretKey = 'your-secret-key'; // Uporabite močan skrivni ključ
 
 // view engine setup
