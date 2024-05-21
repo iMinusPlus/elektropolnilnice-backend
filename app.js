@@ -43,26 +43,6 @@ app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-/**
- * Vključimo session in connect-mongo.
- * Connect-mongo skrbi, da se session hrani v bazi.
- * Posledično ostanemo prijavljeni, tudi ko spremenimo kodo (restartamo strežnik)
- */
-var session = require('express-session');
-var MongoStore = require('connect-mongo');
-app.use(session({
-  secret: 'work hard',
-  resave: true,
-  saveUninitialized: false,
-  store: MongoStore.create({mongoUrl: mongoDB})
-}));
-//Shranimo sejne spremenljivke v locals
-//Tako lahko do njih dostopamo v vseh view-ih (glej layout.hbs)
-app.use(function (req, res, next) {
-  res.locals.session = req.session;
-  next();
-});
-
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/polnilniceopencharge', polnilniceOpenChargeRouter);
