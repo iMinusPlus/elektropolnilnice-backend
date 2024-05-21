@@ -19,4 +19,14 @@ connectionTypeSchema.statics.getFromSearchConnectionType = function (from) {
 	})
 }
 
+connectionTypeSchema.statics.getFromOpenChargeJson = function (json) {
+	return new this({
+		id: json.ID,
+		name: json.FormalName,
+		discontinued: json.IsDiscontinued,
+		obsolete: json.IsObsolete,
+		title: json.Title
+	})
+}
+
 module.exports = mongoose.model('connectionType', connectionTypeSchema);
