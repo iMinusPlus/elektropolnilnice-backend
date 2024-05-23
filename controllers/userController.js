@@ -200,8 +200,7 @@ module.exports = {
             // Shranjevanje JWT v piškotek
             res.cookie('jwt', token, { httpOnly: true }); // Piškotek bo dosegljiv samo preko HTTP zahtev, ne preko JavaScripta
 
-            // Pošiljanje zetona kot odgovor
-            res.json({ message: 'Login successful', token: token });
+            return res.json(user);
         });
     },
 
