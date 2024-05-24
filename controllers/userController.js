@@ -200,7 +200,7 @@ module.exports = {
             // Shranjevanje JWT v piškotek
             res.cookie('jwt', token, { httpOnly: true }); // Piškotek bo dosegljiv samo preko HTTP zahtev, ne preko JavaScripta
 
-            return res.json(user, token);
+            return res.status(201).json(user, token);
         });
     },
 
