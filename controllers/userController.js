@@ -193,14 +193,9 @@ module.exports = {
                 error.status = 401;
                 return next(error);
             }
-
-            // Kreiranje zetona pri uspesni prijavi
-            //const token = jwt.sign({ id: user._id, username: user.username }, secretKey, { expiresIn: '1h' });
-
-            // Shranjevanje JWT v piškotek
-            //res.cookie('jwt', token, { httpOnly: true }); // Piškotek bo dosegljiv samo preko HTTP zahtev, ne preko JavaScripta
-
-            return res.status(201).json(user);
+            const token = jwt.sign({ id: user._id, username: user.username }, secretKey, { expiresIn: '1h' });
+            res.cookie('jwt', token, { httpOnly: true });
+            res.status(200).json({ message: 'Login successful', token });
         });
     },
 
