@@ -6,7 +6,6 @@ on:
   pull_request:
     branches: [ "main" ]
   workflow_dispatch:
-    branches: [ "main" ]
 
 jobs:
 
@@ -33,7 +32,8 @@ jobs:
     - name: Log out from Docker Hub
       run: docker logout
 
-    - name: Webhook
+    - name: Trigger Webhook
+      if: ${{ success() }}
       uses: joelwmale/webhook-action@2.4.1
       with:
         url: ${{ secrets.WEBHOOK_BACKEND }}
