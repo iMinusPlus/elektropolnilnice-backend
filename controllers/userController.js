@@ -196,7 +196,7 @@ module.exports = {
             }
             const token = jwt.sign({ id: user._id, username: user.username }, secretKey, { expiresIn: '1h' });
             res.cookie('jwt', token, { httpOnly: true });
-            res.status(200).json({ message: 'Login successful', token });
+            res.status(200).json({ message: 'Login successful', token: token, user: user });
         });
     },
 
