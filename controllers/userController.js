@@ -2,6 +2,7 @@ const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 var UserModel = require('../models/userModel.js');
+const {decode} = require("jsonwebtoken");
 const secretKey = 'your-secret-key'; // Poskrbite, da je to močan skrivni ključ
 
 
@@ -234,17 +235,23 @@ module.exports = {
     /**
      * userController.protected()
      */
-    protected: function(req, res, next){
-        const token = req.cookies.jwt; // Preberemo JWT iz piškotka
+    protected: function(req, res, next) {
+        const tokenHeaderKey = 'jwt-token';
+        const token = req.headers[tokenHeaderKey];
+
+        if (!token) {
+            return res.status(401).send('Token missing');
+        }
+
         jwt.verify(token, secretKey, (err, decoded) => {
             if (err) {
                 return res.status(401).send('Invalid token');
             }
 
-            const userId = decoded.id; // Pridobimo ID uporabnika iz dekodiranih podatkov JWT
-            const username = decoded.username; // Pridobimo ID uporabnika iz dekodiranih podatkov JWT
-            res.json({token: token, id: userId, username: username});
-
+            const userId = decoded.id;
+            const username = decoded.username;
+            res.json({ id: userId, username: username });
         });
     }
+
 };
