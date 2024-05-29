@@ -250,7 +250,9 @@ module.exports = {
 
             const userId = decoded.id;
             const username = decoded.username;
-            res.json({ id: userId, username: username });
+            const mail = decoded.email;
+            const path = decoded.pathToAvatar;
+            res.json({ id: userId, username: username, email: mail, path: path});
         });
     }
 
