@@ -252,7 +252,7 @@ module.exports = {
             const username = decoded.username;
             const mail = decoded.email;
             const path = decoded.pathToAvatar;
-            res.json({ id: userId, username: username});
+            res.json({ id: userId, username: username, email: mail});
         });
     }
 
