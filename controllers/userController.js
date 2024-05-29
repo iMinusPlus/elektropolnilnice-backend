@@ -249,10 +249,25 @@ module.exports = {
             }
 
             const userId = decoded.id;
-            const username = decoded.username;
-            const mail = decoded.email;
-            const path = decoded.pathToAvatar;
-            res.json({ id: userId, username: username});
+            //const username = decoded.username;
+            //const mail = decoded.email;
+            //const path = decoded.pathToAvatar;
+
+            UserModel.findById(userId)
+                .exec(function(error, user) {
+                    if (error) {
+                        return next(error);
+                    } else {
+                        if (user === null) {
+                            var err = new Error('Not authorized, go back!');
+                            err.status = 400;
+                            return next(err);
+                        } else {
+                            res.json(user);
+                        }
+                    }
+                });
+            //res.json({ id: userId, username: username, email: mail});
         });
     }
 
