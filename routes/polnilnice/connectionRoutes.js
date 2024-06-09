@@ -16,6 +16,7 @@ router.get('/:id', connectionController.show);
  * POST
  */
 router.post('/', connectionController.create);
+router.post('/app', connectionController.app);
 
 /*
  * PUT

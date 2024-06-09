@@ -1,4 +1,5 @@
 var ConnectionModel = require('../../models/polnilnice/connectionModel.js');
+const AddressModel = require("../../models/polnilnice/addressModel");
 
 /**
  * connectionController.js
@@ -133,6 +134,40 @@ module.exports = {
             }
 
             return res.status(204).json();
+        });
+    },
+
+    /**
+     * connectionController.app()
+     */
+
+    app: async function (req, res) {
+        let connection = {
+            id: req.body.id,
+            connectionType: req.body.connectionType,
+            reference: req.body.reference,
+            amps: req.body.amps,
+            voltage: req.body.voltage,
+            powerKW: req.body.powerKW,
+            currentType: req.body.currentType,
+            quantity: req.body.quantity,
+            comments: req.body.comments
+        };
+
+        // Remove _id from the update object
+        if (connection._id) {
+            delete connection._id;
+        }
+
+        let savedConnType = await ConnectionModel.findOneAndUpdate(
+            {id: connection.id}, // filter
+            connection, // update
+            {new: true, upsert: true} // options
+        ).exec();
+
+        let objectId = savedConnType._id;
+        return res.status(200).json({
+            message: objectId
         });
     }
 };

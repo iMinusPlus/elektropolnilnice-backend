@@ -133,7 +133,6 @@ module.exports = {
      * connectionTypeController.app()
      */
     app: async function (req, res) {
-
         let connType = {
             id: req.body.id,
             name: req.body.name,
@@ -153,7 +152,7 @@ module.exports = {
             {new: true, upsert: true} // options
         ).exec();
 
-        let objectId = connType._id;
+        let objectId = savedConnType._id;
         return res.status(200).json({
             message: objectId
         });
