@@ -146,7 +146,7 @@ module.exports = {
             delete connType._id;
         }
 
-        let savedConnType = await AddressModel.findOneAndUpdate(
+        let savedConnType = await ConnectiontypeModel.findOneAndUpdate(
             {id: connType.id}, // filter
             connType, // update
             {new: true, upsert: true} // options
