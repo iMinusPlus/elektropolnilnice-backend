@@ -1,4 +1,5 @@
 var AddressModel = require('../../models/polnilnice/addressModel.js');
+const {log} = require("debug");
 
 /**
  * addressController.js
@@ -129,6 +130,38 @@ module.exports = {
             }
 
             return res.status(204).json();
+        });
+    },
+
+    /**
+     * addressController.app()
+     */
+    app: async function (req, res) {
+
+        let address = {
+            id: req.body.id,
+            title: req.body.title,
+            town: req.body.town,
+            postcode: req.body.postcode,
+            country: req.body.country,
+            latitude: req.body.latitude,
+            longitude: req.body.longitude,
+        };
+
+        // Remove _id from the update object
+        if (address._id) {
+            delete address._id;
+        }
+
+        let savedAddress = await AddressModel.findOneAndUpdate(
+            {id: address.id}, // filter
+            address, // update
+            {new: true, upsert: true} // options
+        ).exec();
+
+        let objectId = savedAddress._id;
+        return res.status(200).json({
+            message: objectId
         });
     }
 };
