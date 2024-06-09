@@ -146,5 +146,53 @@ module.exports = {
 
             return res.status(204).json();
         });
+    },
+    /**
+     * elektroPolnilnicaController.remove()
+     */
+    app: async function (req, res) {
+        //{id=296026, dateLastVerified=2024-03-05, UUID=7E81DB8C-3C24-4793-BB6D-1AFE2A75D64E, dataProviderID=1,
+        // usageCost=Free, usageTypeID=1, address=664cc1bbebab29e17c96196b, connections=[664cc1bbebab29e17c9619f5, 664cc1bbebab29e17c961a46, 664cc1bbebab29e17c961aa4],
+        // dateCreated=2024-03-02, dateAddedToOurApp=2024-06-09, numberOfPoints=2, statusType=FREE, dateLastConfirmed=2024-06-09, comments=null}
+
+
+        let str = req.body.connections;
+        str = str.replace(/[\[\] ]/g, "").split(',').map(s => `"${s}"`);
+        str = `[${str.join(",")}]`;
+        let arr = JSON.parse(str);
+
+        let station = {
+            id: req.body.id,
+            dateLastVerified: req.body.dateLastVerified,
+            UUID: req.body.UUID,
+            dataProviderID: req.body.dataProviderID,
+            usageCost: req.body.usageCost,
+            usageType: req.body.usageType,
+            address: req.body.address,
+            connections: arr,
+            dateCreated: req.body.dateCreated,
+            dateAddedToOurApp: req.body.dateAddedToOurApp,
+            numberOfPoints: req.body.numberOfPoints,
+            status: req.body.status,
+            dateLastConfirmed: req.body.dateLastConfirmed,
+            comments: req.body.comments
+        };
+
+        // Remove _id from the update object
+        if (station._id) {
+            delete station._id;
+        }
+
+        let savedElp = await ElektropolnilnicaModel.findOneAndUpdate(
+            {id: station.id}, // filter
+            station, // update
+            {new: true, upsert: true} // options
+        ).exec();
+
+        let objectId = savedElp._id;
+        return res.status(200).json({
+            message: objectId
+        });
     }
+
 };

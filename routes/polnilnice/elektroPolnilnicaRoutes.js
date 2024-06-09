@@ -16,6 +16,7 @@ router.get('/:id', elektroPolnilnicaController.show);
  * POST
  */
 router.post('/', elektroPolnilnicaController.create);
+router.post('/app', elektroPolnilnicaController.app);
 
 /*
  * PUT
