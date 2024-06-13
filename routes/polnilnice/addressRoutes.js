@@ -17,6 +17,7 @@ router.get('/:id', addressController.show);
  */
 router.post('/', addressController.create);
 router.post('/app', addressController.app);
+router.post('/app/remove', addressController.remove);
 
 /*
  * PUT
@@ -26,6 +27,6 @@ router.put('/:id', addressController.update);
 /*
  * DELETE
  */
-router.delete('/:id', addressController.remove);
+// router.delete('/:id', addressController.remove);
 
 module.exports = router;

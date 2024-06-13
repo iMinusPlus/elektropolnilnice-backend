@@ -119,9 +119,9 @@ module.exports = {
      * addressController.remove()
      */
     remove: function (req, res) {
-        var id = req.params.id;
+        var id = req.body.id;
 
-        AddressModel.findByIdAndRemove(id, function (err, address) {
+        AddressModel.findOneAndRemove({id: id}, function (err, address) {
             if (err) {
                 return res.status(500).json({
                     message: 'Error when deleting the address.',
@@ -131,6 +131,16 @@ module.exports = {
 
             return res.status(204).json();
         });
+        // AddressModel.findByIdAndRemove(id, function (err, address) {
+        //     if (err) {
+        //         return res.status(500).json({
+        //             message: 'Error when deleting the address.',
+        //             error: err
+        //         });
+        //     }
+        //
+        //     return res.status(204).json();
+        // });
     },
 
     /**
