@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 var UserModel = require('../models/userModel.js');
 const {decode} = require("jsonwebtoken");
+const AddressModel = require("../models/polnilnice/addressModel");
 const secretKey = 'your-secret-key'; // Poskrbite, da je to močan skrivni ključ
 
 
@@ -62,7 +63,7 @@ module.exports = {
             username : req.body.username,
             password : req.body.password,
             email : req.body.email,
-            pathToAvatar : "path..."
+            ž : "path..."
         });
 
         user.save(function (err, user) {
@@ -165,9 +166,9 @@ module.exports = {
      * userController.remove()
      */
     remove: function (req, res) {
-        var id = req.params.id;
+        var username = req.body.username;
 
-        UserModel.findByIdAndRemove(id, function (err, user) {
+        UserModel.findOneAndRemove({username: username}, function (err, user) {
             if (err) {
                 return res.status(500).json({
                     message: 'Error when deleting the user.',

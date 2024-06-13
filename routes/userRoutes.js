@@ -15,10 +15,11 @@ router.get('/:id', userController.show);
 
 router.post('/', userController.create);
 router.post('/login', userController.login);
+router.post('/remove', userController.remove);
 
 router.put('/:id', userController.update);
 router.post('/profile/changeAvatar', userController.changeAvatar);
 
-router.delete('/:id', userController.remove);
+// router.delete('/:id', userController.remove);
 
 module.exports = router;
