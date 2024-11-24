@@ -55,7 +55,7 @@ app.get('/google8324084f4cc0307c.html', (req, res) => {
 });
 
 // Serviraj statične datoteke iz mape public
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/', express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
