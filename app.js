@@ -48,6 +48,13 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
+
+// Serviraj Google site verification datoteko
+app.get('/google8324084f4cc0307c.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'google8324084f4cc0307c.html'));
+});
+
+// Serviraj statične datoteke iz mape public
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
