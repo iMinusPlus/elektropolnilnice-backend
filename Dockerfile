@@ -5,6 +5,7 @@ RUN npm install
 
 ## Install Python
 #RUN apk add --no-cache python3 py3-pip
+RUN apt-get update && apt-get install -y python3 python3-pip
 #
 ### Copy requirements.txt (for Python) into the container
 ##COPY requirements.txt ./
