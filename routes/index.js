@@ -45,7 +45,7 @@ router.post('/upload', upload.single('image'), (req, res) => {
   if (req.file) {
     //Path to the uploaded image file
     const imagePath = req.file.path;
-    const pyScript = `python ./python/test.py "${imagePath}"`
+    const pyScript = `python3 ./python/test.py "${imagePath}"`
     // Execute the Python script
     exec(pyScript, (error, stdout, stderr) => {
       if (error) {
