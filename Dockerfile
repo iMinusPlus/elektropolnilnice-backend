@@ -8,9 +8,9 @@ RUN apk add --no-cache python3 py3-pip
 #
 ### Copy requirements.txt (for Python) into the container
 ##COPY requirements.txt ./
-#
-## Install PyTorch and torchvision (CPU support)
-#RUN pip3 install --no-cache-dir torch torchvision
+
+# Install PyTorch and other Python dependencies
+RUN pip3 install --no-cache-dir torch torchvision
 
 
 COPY .. .
