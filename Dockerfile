@@ -1,13 +1,25 @@
-FROM node:18-alpine
+FROM node:18
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
 
-# Install Python and pip
-RUN apk add --no-cache python3 py3-pip
+# Install Python and pip using apt-get
+RUN apt-get update && apt-get install -y python3 python3-pip python3-venv
 
-# Install PyTorch from a musl-compatible repository
-RUN pip install --no-cache-dir torch torchvision -f https://alpine-pytorch.repo/musl
+#
+### Copy requirements.txt (for Python) into the container
+##COPY requirements.txt ./
+
+## Install PyTorch and other Python dependencies
+#RUN pip3 install --no-cache-dir torch torchvision
+
+# Create a virtual environment and activate it
+RUN python3 -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Install PyTorch inside the virtual environment
+RUN pip install --no-cache-dir torch torchvision
+
 
 COPY .. .
 
